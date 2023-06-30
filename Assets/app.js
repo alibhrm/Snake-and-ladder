@@ -18,8 +18,11 @@ document.addEventListener("keydown", async (e) => {
       await run(diceNum);
       await new Promise((resolve) => setTimeout(resolve, 400)); //After run
     }
-    changeTurn();
-    stopEvent = false;
+    let wonBy = checkWin();
+    if (wonBy == "none") {
+      changeTurn();
+      stopEvent = false;
+    }
   }
 });
 // Roll dice with roll btn
@@ -43,7 +46,7 @@ const clickRoll = document.addEventListener("click", async () => {
 //checking if player is near the win and wont move if dice is bigger
 function checkRange(diceNum){
   let isOutofRange = false
-  if(marginTop()==88.2 && (marginLeft()+Number((diceNum*-9.8).toFixed(1)))<0){
+  if(marginTop()==-88.2 && (marginLeft()+Number((diceNum*-9.8).toFixed(1)))<0){
     isOutofRange = true
   }
   return isOutofRange
@@ -64,12 +67,12 @@ function run(diceNum) {
 
 // check if player win
 function checkWin() {
-  if (marginTop() == 88.2 && marginLeft() == 0) {
+  if (marginTop() == -88.2 && marginLeft() == 0) {
     document.querySelector("#p_turn").innerHTML = `${turn} player wins!`;
     var win = document.querySelector("#win");
     win.play();
     return turn;
-  } else return "none";
+  } else{ return "none"};
 }
 // change players  turn
 function changeTurn() {
